@@ -126,7 +126,7 @@ func main() {
 	}
 
 	// Serve static files for frontend
-	r.Static("/static", "./frontend/dist")
+	r.Static("/assets", "./frontend/dist/assets")
 	r.StaticFile("/", "./frontend/dist/index.html")
 	r.StaticFile("/admin", "./frontend/dist/admin.html")
 

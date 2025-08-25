@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const login = async (credentials: { username: string; password: string }) => {
     try {
-      const response = await authAPI.login(credentials)
+      const response: any = await authAPI.login(credentials)
       token.value = response.token
       user.value = response.user
       isLoggedIn.value = true
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const adminLogin = async (credentials: { username: string; password: string }) => {
     try {
-      const response = await authAPI.adminLogin(credentials)
+      const response: any = await authAPI.adminLogin(credentials)
       token.value = response.token
       user.value = response.user
       isLoggedIn.value = true
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     qq?: string
   }) => {
     try {
-      const response = await authAPI.register(userData)
+      const response: any = await authAPI.register(userData)
       token.value = response.token
       user.value = response.user
       isLoggedIn.value = true
@@ -82,7 +82,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const getProfile = async () => {
     try {
-      const response = await authAPI.getProfile()
+      const response: any = await authAPI.getProfile()
       user.value = response
       localStorage.setItem('user', JSON.stringify(response))
       return response
