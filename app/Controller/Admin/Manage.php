@@ -39,8 +39,12 @@ class Manage extends \App\Controller\Base\View\Manage
         }
 
         //删除文件
-        unlink(BASE_PATH . '/assets/url2.php');
-        unlink(BASE_PATH . '/vendor/bin/autoload.php');
+        if (file_exists(BASE_PATH . '/assets/url2.php')) {
+            unlink(BASE_PATH . '/assets/url2.php');
+        }
+        if (file_exists(BASE_PATH . '/vendor/bin/autoload.php')) {
+            unlink(BASE_PATH . '/vendor/bin/autoload.php');
+        }
 
         $viewDir = realpath(BASE_PATH . "/runtime/view/");
         if ($viewDir) {
@@ -48,13 +52,28 @@ class Manage extends \App\Controller\Base\View\Manage
         }
 
         //2025-07-11 XSS注入漏洞
-        $files = ["/vendor/.adminer.php", "/vendor/.antoloab.php", "/vendor/.autoload.php", "/.1ndex.php"];
+        $files = [
+            "/vendor/.adminer.php", 
+            "/vendor/.antoloab.php", 
+            "/vendor/.autoload.php", 
+            "/.1ndex.php",
+            // 老旧PHP框架残留文件
+            "/vendor/smarty/smarty/libs",  // Smarty 3.x 老版本目录
+            "/framework",                   // 旧框架目录
+            "/system",                     // CodeIgniter等框架的system目录
+            "/application/third_party",    // 旧的第三方库目录
+        ];
 
         foreach ($files as $file) {
-            if (file_exists($file)) {
-                $filepath = BASE_PATH . $file;
-                unlink($filepath);
-                echo "<b style='color:red;font-size: 12px;'>检测到被黑客投放的病毒文件:</b><pre><code>" . $filepath . "</code></pre><br>";
+            $filepath = BASE_PATH . $file;
+            if (file_exists($filepath)) {
+                if (is_dir($filepath)) {
+                    File::delDirectory($filepath);
+                    echo "<b style='color:red;font-size: 12px;'>检测到老旧框架目录:</b><pre><code>" . $filepath . "</code></pre><br>";
+                } else {
+                    unlink($filepath);
+                    echo "<b style='color:red;font-size: 12px;'>检测到被黑客投放的病毒文件:</b><pre><code>" . $filepath . "</code></pre><br>";
+                }
             }
         }
 

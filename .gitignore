@@ -1,0 +1,29 @@
+# Dependencies
+vendor/
+node_modules/
+
+# Runtime files
+runtime/
+*.log
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Config files (if they contain sensitive data)
+/config/database.php
+
+# Build artifacts
+dist/
+build/
+
+# Old framework remnants
+/framework/
+/system/
+/application/third_party/
